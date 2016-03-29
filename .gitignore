@@ -1,1 +1,4 @@
 .GPIO.xojo_uistate
+Builds - GPIO.xojo_project/Linux ARM/GPIOTest/GPIOTest
+Builds - GPIO.xojo_project/Linux ARM/GPIOTest/GPIOTest Libs/libc++.so.1
+Builds - GPIO.xojo_project/Linux ARM/GPIOTest/GPIOTest Libs/XojoConsoleFrameworkARM.so

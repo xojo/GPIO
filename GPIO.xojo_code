@@ -29,6 +29,21 @@ Protected Module GPIO
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
+		Protected Sub Cleanup()
+		  If PinDict <> Nil Then
+		    Dim pins() As Integer
+		    For Each p As Xojo.Core.DictionaryEntry In PinDict
+		      pins.Append(p.Key)
+		    Next
+		    
+		    For Each p As Integer In pins
+		      PinMode(p, GPIO.INPUT)
+		    Next
+		  End If
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Sub Delay(howLong As UInteger)
 		  // void delay (unsigned int howLong)
 		  // This causes program execution to pause for at least howLong milliseconds. Due to the multi-tasking nature of Linux it could be longer. Note that the maximum delay is an unsigned 32-bit integer or approximately 49 days.
@@ -300,6 +315,13 @@ Protected Module GPIO
 		  #If TargetARM And TargetLinux Then
 		    Soft Declare Sub wpPinMode Lib "libwiringPi.so" Alias "pinMode" (pin As Integer, mode As Integer)
 		    wpPinMode(pin, mode)
+		    
+		    // Save the pins to reset to INPUT when Cleanup is called
+		    If mode = GPIO.OUTPUT Then
+		      PinDict.Value(pin) = ""
+		    ElseIf PinDict.HasKey(pin) Then
+		      PinDict.Remove(pin)
+		    End If
 		  #Endif
 		End Sub
 	#tag EndMethod
@@ -433,6 +455,8 @@ Protected Module GPIO
 		  #If TargetARM And TargetLinux Then
 		    Soft Declare Sub wiringPiSetupGpio Lib "libwiringPi.so"
 		    wiringPiSetupGpio
+		    
+		    PinDict = New Xojo.Core.Dictionary
 		  #Else
 		    #Pragma Error "wiringPi library only works on Raspberry Pi"
 		  #Endif
@@ -514,6 +538,41 @@ Protected Module GPIO
 		  #If TargetARM And TargetLinux Then
 		    Soft Declare Sub wpShiftOut Lib "libwiringPi.so" Alias "shiftOut" (dPin As UInt8, cPin As UInt8, order As UInt8, val As UInt8)
 		    wpShiftOut(dPin, cPin, order, val)
+		  #Endif
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function SoftPwmCreate(pin As Integer, initialValue As Integer, pwmRange As Integer) As Integer
+		  // int softPwmCreate (int pin, int initialValue, int pwmRange) ;
+		  // This creates a software controlled PWM pin.
+		  // You can use any GPIO pin and the pin numbering will be
+		  // that of the wiringPiSetup() function you used.
+		  // Use 100 for the pwmRange, then the value can be
+		  // anything from 0 (off) to 100 (fully on) for the given pin.
+		  
+		  // The return value is 0 for success.
+		  // Anything else and you should check the global
+		  // errno variable to see what went wrong.
+		  
+		  #If TargetARM And TargetLinux Then
+		    Soft Declare Function wpSoftPwmCreate Lib "libwiringPi.so" Alias "softPwmCreate" (pin As Integer, initialValue As Integer, pwmRange As Integer) As Integer
+		    Return wpSoftPwmCreate(pin, initialValue, pwmRange)
+		  #Endif
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub SoftPwmWrite(pin As Integer, value As Integer)
+		  // void softPwmWrite (int pin, int value) ;
+		  // This updates the PWM value on the given pin.
+		  // The value is checked to be in-range and pins that
+		  // haven’t previously been initialised via softPwmCreate
+		  // will be silently ignored.
+		  
+		  #If TargetARM And TargetLinux Then
+		    Soft Declare Sub wpSoftPwmWrite Lib "libwiringPi.so" Alias "softPwmWrite" (pin As Integer, value As Integer)
+		    wpSoftPwmWrite(pin, value)
 		  #Endif
 		End Sub
 	#tag EndMethod
@@ -608,8 +667,14 @@ Protected Module GPIO
 		Requires wiringPi to be installed so that libwiringPi.so is available.
 		
 		http://wiringpi.com
+		http://wiringpi.com/reference/
 		
 	#tag EndNote
+
+
+	#tag Property, Flags = &h21
+		Private PinDict As Xojo.Core.Dictionary
+	#tag EndProperty
 
 
 	#tag Constant, Name = HIGH, Type = Double, Dynamic = False, Default = \"1", Scope = Protected

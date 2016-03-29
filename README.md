@@ -21,3 +21,9 @@ Copy the GPIO module from this project to your own project. For additional infor
 [3]: http://developer.xojo.com/rpi-blinking-led-tutorial "Blinking"
 [4]: http://developer.xojo.com/button-led-tutorial "Button"
 [5]: http://developer.xojo.com/desktop-gpio-app "Desktop"
+
+## Changes
+* Added GPIO.Cleanup method
+* Added SoftPwmCreate
+* Added SoftPwmWrite
+* Added RGBLED class
