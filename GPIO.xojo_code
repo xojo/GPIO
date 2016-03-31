@@ -46,7 +46,9 @@ Protected Module GPIO
 	#tag Method, Flags = &h1
 		Protected Sub Delay(howLong As UInteger)
 		  // void delay (unsigned int howLong)
-		  // This causes program execution to pause for at least howLong milliseconds. Due to the multi-tasking nature of Linux it could be longer. Note that the maximum delay is an unsigned 32-bit integer or approximately 49 days.
+		  // This causes program execution to pause for at least howLong milliseconds. 
+		  // Due to the multi-tasking nature of Linux it could be longer. 
+		  // Note that the maximum delay is an unsigned 32-bit integer or approximately 49 days.
 		  
 		  #If TargetARM And TargetLinux Then
 		    Soft Declare Sub wpDelay Lib "libwiringPi.so" Alias "delay" (howLong As UInteger)
@@ -578,6 +580,37 @@ Protected Module GPIO
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
+		Protected Function SoftToneCreate(pin As Integer) As Integer
+		  // int softToneCreate (int pin) ;
+		  // This creates a software controlled tone pin.
+		  // You can use any GPIO pin and the pin numbering
+		  // will be that of the wiringPiSetup() function you used.
+		  
+		  // The return value is 0 for success.
+		  // Anything else and you should check the
+		  // global errno variable to see what went wrong.
+		  
+		  #If TargetARM And TargetLinux Then
+		    Soft Declare Function wpSoftToneCreate Lib "libwiringPi.so" Alias "softToneCreate" (pin As Integer) As Integer
+		    Return wpSoftToneCreate(pin)
+		  #Endif
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub SoftToneWrite(pin As Integer, freq As Integer)
+		  // void softToneWrite (int pin, int freq) ;
+		  // This updates the tone frequency value on the given pin.
+		  // The tone will be played until you set the frequency to 0.
+		  
+		  #If TargetARM And TargetLinux Then
+		    Soft Declare Sub wpSoftToneWrite Lib "libwiringPi.so" Alias "softToneWrite" (pin As Integer, freq As Integer)
+		    wpSoftToneWrite(pin, freq)
+		  #Endif
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Function SPIDataRW(channel As Integer, data As CString, len As Integer) As Integer
 		  // int wiringPiSPIDataRW (int channel, unsigned char *data, int len) ;
 		  // This performs a simultaneous write/read transaction over the selected SPI bus.
@@ -675,6 +708,15 @@ Protected Module GPIO
 	#tag Property, Flags = &h21
 		Private PinDict As Xojo.Core.Dictionary
 	#tag EndProperty
+
+	#tag ComputedProperty, Flags = &h1
+		#tag Getter
+			Get
+			  Return "1.5"
+			End Get
+		#tag EndGetter
+		Protected Version As Text
+	#tag EndComputedProperty
 
 
 	#tag Constant, Name = HIGH, Type = Double, Dynamic = False, Default = \"1", Scope = Protected
