@@ -1,6 +1,8 @@
 # GPIO
 A module for accessing the Raspberry Pi GPIO connector from Xojo apps.
 
+http://www.xojo.com
+
 Requires the wiringPi library to be installed so that libwiringPi.so is available.
 
 http://wiringpi.com
