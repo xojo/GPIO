@@ -715,7 +715,7 @@ Protected Module GPIO
 	#tag ComputedProperty, Flags = &h1
 		#tag Getter
 			Get
-			  Return "1.5"
+			  Return "1.6"
 			End Get
 		#tag EndGetter
 		Protected Version As Text
