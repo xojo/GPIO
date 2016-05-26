@@ -649,8 +649,8 @@ Protected Module GPIO
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h21
-		Private Sub WIringPiISR()
+	#tag Method, Flags = &h1
+		Protected Function WIringPiISR(pin As Integer, edgeType As Integer, p As Ptr) As Integer
 		  // int wiringPiISR (int pin, int edgeType,  void (*function)(void)) ;
 		  // This function registers a function to received interrupts on the specified pin.
 		  // The edgeType parameter is either INT_EDGE_FALLING, INT_EDGE_RISING,
@@ -678,8 +678,11 @@ Protected Module GPIO
 		  // 
 		  // See the isr.c example program for more details on how to use this feature.
 		  
-		  #Pragma Warning "WiringPiISR not yet implemented."
-		End Sub
+		  #If TargetARM And TargetLinux Then
+		    Soft Declare Function wpISR Lib "libwiringPi.so" Alias "wiringPiISR" (pin As Integer, mode As Integer, p as ptr) As Integer
+		    Return wpISR(pin, edgeType, p)
+		  #Endif
+		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
@@ -718,6 +721,18 @@ Protected Module GPIO
 		Protected Version As Text
 	#tag EndComputedProperty
 
+
+	#tag Constant, Name = EDGE_BOTH, Type = Double, Dynamic = False, Default = \"3", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = EDGE_FALLING, Type = Double, Dynamic = False, Default = \"1", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = EDGE_RISING, Type = Double, Dynamic = False, Default = \"2", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = EDGE_SETUP, Type = Double, Dynamic = False, Default = \"0", Scope = Protected
+	#tag EndConstant
 
 	#tag Constant, Name = HIGH, Type = Double, Dynamic = False, Default = \"1", Scope = Protected
 	#tag EndConstant
