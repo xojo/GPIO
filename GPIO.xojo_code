@@ -678,10 +678,12 @@ Protected Module GPIO
 		  // 
 		  // See the isr.c example program for more details on how to use this feature.
 		  
-		  #If TargetARM And TargetLinux Then
-		    Soft Declare Function wpISR Lib "libwiringPi.so" Alias "wiringPiISR" (pin As Integer, mode As Integer, p as ptr) As Integer
-		    Return wpISR(pin, edgeType, p)
-		  #Endif
+		  // Unfortunately, wiringPiISR runs the callback on a preemptive thread
+		  // making this method unsafe to use with Xojo.
+		  // #If TargetARM And TargetLinux Then
+		  // Soft Declare Function wpISR Lib "libwiringPi.so" Alias "wiringPiISR" (pin As Integer, mode As Integer, p as ptr) As Integer
+		  // Return wpISR(pin, edgeType, p)
+		  // #Endif
 		End Function
 	#tag EndMethod
 
@@ -715,7 +717,7 @@ Protected Module GPIO
 	#tag ComputedProperty, Flags = &h1
 		#tag Getter
 			Get
-			  Return "1.6"
+			  Return "1.7"
 			End Get
 		#tag EndGetter
 		Protected Version As Text
