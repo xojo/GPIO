@@ -1,5 +1,5 @@
 Type=Console
-RBProjectVersion=2016.011
+RBProjectVersion=2017.01
 MinIDEVersion=20070100
 Class=App;App.xojo_code;&h7BD07FF;&h0;false
 BuildSteps=Build Automation;Build Automation.xojo_code;&h4F802FFF;&h0;false
@@ -36,5 +36,7 @@ OSXBundleID=com.example.wiringpigpioxojo
 DebuggerCommandLine=
 UseGDIPlus=False
 UseBuildsFolder=True
+CopyRedistNextToWindowsEXE=False
 IsWebProject=False
 LinuxBuildArchitecture=2
+OptimizationLevel=0

@@ -439,6 +439,8 @@ Protected Module GPIO
 		  #If TargetARM And TargetLinux Then
 		    Soft Declare Sub wiringPiSetup Lib "libwiringPi.so"
 		    wiringPiSetup
+		    
+		    PinDict = New Xojo.Core.Dictionary
 		  #Else
 		    #Pragma Error "wiringPi library only works on Raspberry Pi"
 		  #Endif
@@ -476,6 +478,8 @@ Protected Module GPIO
 		  #If TargetARM And TargetLinux Then
 		    Soft Declare Sub wiringPiSetupPhys Lib "libwiringPi.so"
 		    wiringPiSetupPhys
+		    
+		    PinDict = New Xojo.Core.Dictionary
 		  #Else
 		    #Pragma Error "wiringPi library only works on Raspberry Pi"
 		  #Endif
@@ -506,6 +510,8 @@ Protected Module GPIO
 		  #If TargetARM And TargetLinux Then
 		    Soft Declare Sub wiringPiSetupSys Lib "libwiringPi.so"
 		    wiringPiSetupSys
+		    
+		    PinDict = New Xojo.Core.Dictionary
 		  #Else
 		    #Pragma Error "wiringPi library only works on Raspberry Pi"
 		  #Endif
@@ -717,7 +723,7 @@ Protected Module GPIO
 	#tag ComputedProperty, Flags = &h1
 		#tag Getter
 			Get
-			  Return "1.7"
+			  Return "1.7.1"
 			End Get
 		#tag EndGetter
 		Protected Version As Text

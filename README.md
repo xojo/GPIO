@@ -33,6 +33,9 @@ Copy the GPIO module from this project to your own project. For additional infor
 [9]: http://developer.xojo.com/rpi-lcd-character-display "LCD"
 
 ## Changes
+### v1.7.1
+* Setup, SetupPhys and SetupSys now also initialize PinDict.
+
 ### v1.7
 * Commented out WiringPiISR method as it makes its callback in a pre-emptive thread making it unsafe to use with Xojo.
 
