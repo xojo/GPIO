@@ -636,7 +636,7 @@ Protected Module GPIO
 		  #Endif
 		  
 		  // Usage:
-		  // Dim ok As Integer = GPIO.SPIDataRW1(channel, mm, mm.Size)
+		  // Dim ok As Integer = GPIO.SPIDataRW(channel, mm, mm.Size)
 		  // where mm is a memory block 
 		End Function
 	#tag EndMethod
