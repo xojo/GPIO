@@ -33,8 +33,11 @@ Copy the GPIO module from this project to your own project. For additional infor
 [9]: http://developer.xojo.com/rpi-lcd-character-display "LCD"
 
 ## Changes
+### v1.7.3
+* Corrected Xojo method signature for SPIDataRW to use CString to fix compile error.
+
 ### v1.7.2
-* Corrected method signature for SPIDataRW so that you can actually get the output.
+* Corrected Declare method signature for SPIDataRW so that you can actually get the output.
 
 ### v1.7.1
 * Setup, SetupPhys and SetupSys now also initialize PinDict.

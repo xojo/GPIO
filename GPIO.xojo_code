@@ -617,7 +617,7 @@ Protected Module GPIO
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Function SPIDataRW(channel As Integer, data As Ptr, len As Integer) As Integer
+		Protected Function SPIDataRW(channel As Integer, data As CString, len As Integer) As Integer
 		  // int wiringPiSPIDataRW (int channel, unsigned char *data, int len) ;
 		  // This performs a simultaneous write/read transaction over the selected SPI bus.
 		  // Data that was in your buffer is overwritten by data returned from the SPI bus.
@@ -727,7 +727,7 @@ Protected Module GPIO
 	#tag ComputedProperty, Flags = &h1
 		#tag Getter
 			Get
-			  Return "1.7.1"
+			  Return "1.7.3"
 			End Get
 		#tag EndGetter
 		Protected Version As Text
